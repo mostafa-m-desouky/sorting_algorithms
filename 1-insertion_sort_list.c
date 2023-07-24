@@ -1,45 +1,50 @@
 #include "sort.h"
-#include <stdio.h>
 
 /**
- * insertion_sort_list -func that sort a dll
- * @list: db linked ls
- * Return: void
- * amine mohamed & salma abzou
+ * insertion_sort_list - function that sorts a doubly linked list
+ * of integers in ascending order using the Insertion sort algorithm
+ * @list: Pointer to the doubly linked list to be sorted.
+ * Return: currnt state of the list
  */
+
 void insertion_sort_list(listint_t **list)
 {
-	listint_t *pt, *tp;
+	listint_t *temp, *current;
 
-	if (!list)
+	/* Validate if list = 0 or list = 1 */
+	if (!list || !(*list) || !(*list)->next)
 		return;
 
-	pt = *list;
+	/* Sorting from element 2 */
+	current = (*list)->next;
 
-	while (pt)
+	while (current)
 	{
-		while (pt->next && (pt->n > pt->next->n))
+		temp = current;
+		current = current->next;
+
+		/* Iterate sorted list from the right to the left */
+		while (temp->prev && (temp->prev->n > temp->n))
 		{
-			tp = pt->next;
-			pt->next = tp->next;
-			tp->prev = pt->prev;
+			/* Join previous node with next node */
+			temp->prev->next = temp->next;
+			if (temp->next)
+				temp->next->prev = temp->prev;
 
-			if (pt->prev)
-				pt->prev->next = tp;
+			/* Move temp node one position to the left */
+			temp->next = temp->prev;
+			temp->prev = temp->prev->prev;
 
-			if (tp->next)
-				tp->next->prev = pt;
+			/* Update the links of the adjacent nodes */
+			temp->next->prev = temp;
 
-			pt->prev = tp;
-			tp->next = pt;
-
-			if (tp->prev)
-				pt = tp->prev;
+			if (temp->prev)
+				temp->prev->next = temp;
 			else
-				*list = tp;
+				*list = temp;
 
+			/* Display list's current state. */
 			print_list(*list);
 		}
-		pt = pt->next;
 	}
 }

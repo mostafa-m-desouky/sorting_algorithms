@@ -1,31 +1,44 @@
 #include "sort.h"
 
 /**
- * selection_sort - this func to
- * @array: array of int
- * @size: array size
- * Return: void
- * author : amine and salma
+ * selection_sort - sorts integer array in ascending order
+ * using selection sort algorithm.
+ * @array: pointer to array intended to be sorted
+ * @size: array's size
+ *
+ * Return: current state of the array
  */
+
 void selection_sort(int *array, size_t size)
 {
-	int tp;
-	size_t n, k, g;
+	size_t i, j, min_idx;
 
-	for (n = 0; n < size; n++)
+	/* Validate if list pointer is not null & size is less than 2 */
+	if (!array || size < 2)
+		return;
+
+	for (i = 0; i < size - 1; i++)
 	{
-		g = n;
-		for (k = n + 1; k < size; k++)
+		/* Assume current element is the minimum value */
+		min_idx = i;
+
+		/* Search for minimum element in unsorted array */
+		for (j = i + 1; j < size; j++)
 		{
-			if (array[g] > array[k])
-				g = k;
+			if (array[j] < array[min_idx])
+				min_idx = j;
 		}
 
-		if (n != g)
+		/* Swap found minimum element with first unsorted element */
+		if (min_idx != i)
 		{
-			tp = array[n];
-			array[n] = array[g];
-			array[g] = tp;
+			int temp = array[i];
+
+			array[i] = array[min_idx];
+
+			array[min_idx] = temp;
+
+			/* Display array's current state */
 			print_array(array, size);
 		}
 	}

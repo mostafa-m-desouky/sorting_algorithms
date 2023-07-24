@@ -1,30 +1,40 @@
 #include "sort.h"
 
 /**
- * bubble_sort - this func for sorting an array.
- * @array: input arrray
- * @size: array size
- * Return: void
- * amine mohamed & ABZOU Salma
+ * bubble_sort - Sorting Algorithm
+ * @array: The array to be sorted.
+ * @size: The size of the array to be sorted.
+ * Return: Nothing.
  */
+
 void bubble_sort(int *array, size_t size)
 {
-	int sp, tp;
-	size_t j, n;
+	int *prev, *next, temp;
+	int swap_occurred;
+	size_t index;
 
-	for (n = size, sp = 1; n > 0 && sp; n--)
-	{
-		sp = 0;
-		for (j = 0; (j + 1) < n; j++)
+	if (array == NULL || size < 2)
+	return;
+
+	do {
+		index = 1;
+		prev = array;
+		next = array + index;
+		swap_occurred = false;
+
+		while (index < size)
 		{
-			if (array[j] > array[j + 1])
+			if (*prev > *next)
 			{
-				tp = array[j + 1];
-				array[j + 1] = array[j];
-				array[j] = tp;
+				temp = *prev;
+				*prev = *next;
+				*next = temp;
+				swap_occurred = true;
 				print_array(array, size);
-				sp = 1;
 			}
+			index++;
+			prev = next;
+			next = array + index;
 		}
-	}
+	} while (swap_occurred == true);
 }
